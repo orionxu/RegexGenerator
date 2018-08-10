@@ -17,7 +17,9 @@
  */
 package it.units.inginf.male.inputs;
 
+import it.units.inginf.male.tree.Node;
 import it.units.inginf.male.utils.Range;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,17 +43,29 @@ public class DataSet {
     public DataSet(String name) {
         this.name = name;
     }
+    
+    public DataSet(String name, Node initRegex) {
+        this.name = name;
+        this.initReg = initRegex;
+    }
 
     public DataSet(String name, String description, String regexTarget) {
         this.name = name;
         this.description = description;
         this.regexTarget = regexTarget;
+        this.examples = new ArrayList<Example>();
+    }
+    
+    public DataSet(String name, String description, String regexTarget, Node initRegex) {
+        this(name, description, regexTarget);
+        this.initReg = initRegex;
     }
     
     public String name;
     public String description;
     public String regexTarget;
     public List<Example> examples = new LinkedList<>();
+    public Node initReg;
     
     private transient int numberMatches;
     private transient int numberUnmatches;
@@ -198,7 +212,7 @@ public class DataSet {
      */
     public DataSet subDataset(String name, List<Range> ranges){
             // ranges are inclusive
-            DataSet subDataset = new DataSet(name);
+            DataSet subDataset = new DataSet(name, this.initReg);
             for(Range range : ranges){
                 for(int index = range.getStartIndex(); index <= range.getEndIndex(); index++){
                     subDataset.getExamples().add(this.getExamples().get(index));
@@ -213,7 +227,7 @@ public class DataSet {
      * @return
      */
     public DataSet initStripedDatasetView(double marginSize){
-        this.stripedDataset = new DataSet(this.name, this.description, this.regexTarget);
+        this.stripedDataset = new DataSet(this.name, this.description, this.regexTarget, this.initReg);
         for(Example example : this.examples){
             this.stripedDataset.getExamples().addAll(this.stripeExample(example, marginSize));
         }        
@@ -360,7 +374,7 @@ public class DataSet {
         Pattern pattern = Pattern.compile(individualRegex);
         Matcher individualRegexMatcher = pattern.matcher("");
     
-        DataSet reducedDataset = new DataSet(this.name, "Reduction: "+individualRegex, this.regexTarget);
+        DataSet reducedDataset = new DataSet(this.name, "Reduction: "+individualRegex, this.regexTarget, this.initReg);
         for(Example example : this.examples){
             if(!isFlagging){
                 reducedDataset.getExamples().add(this.reduceSeparateAndConquerExample(example, individualRegexMatcher, convertToUnmatch));

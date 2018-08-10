@@ -308,7 +308,7 @@ public final class DatasetContainer {
         this.trainingDataset.updateStats();
         this.validationDataset.updateStats();
        
-        this.learningDataset = new DataSet("learning");
+        this.learningDataset = new DataSet("learning", this.dataset.initReg);
         //the Learning set is all the dataset, there is no testing phase in this code.
         //We change the code in a way that learning set equals all dataset. 
         //This has been done in order to minimize changes and mantain the dataset examples 

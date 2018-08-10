@@ -19,8 +19,8 @@ package it.units.inginf.male.configuration;
 
 import it.units.inginf.male.evaluators.CachedTreeEvaluator;
 import it.units.inginf.male.evaluators.TreeEvaluator;
+import it.units.inginf.male.generations.CustomBuilder;
 import it.units.inginf.male.generations.InitialPopulationBuilder;
-import it.units.inginf.male.generations.TokenizedContextPopulationBuilder;
 import it.units.inginf.male.objective.Objective;
 import it.units.inginf.male.objective.PrecisionCharmaskLengthObjective;
 import it.units.inginf.male.postprocessing.BasicPostprocessor;
@@ -125,7 +125,7 @@ public class Configuration {
         
         this.populationBuilderParameters = new HashMap<>();
         this.populationBuilderParameters.put("tokenThreashold","80.0");     
-        this.populationBuilder = new TokenizedContextPopulationBuilder();
+        this.populationBuilder = new CustomBuilder();
         
         this.postprocessorParameters = new HashMap<>();
         this.postprocessor = new BasicPostprocessor();

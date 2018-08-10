@@ -30,12 +30,17 @@ import it.units.inginf.male.postprocessing.BasicPostprocessor;
 import it.units.inginf.male.postprocessing.JsonPostProcessor;
 import it.units.inginf.male.strategy.ExecutionStrategy;
 import it.units.inginf.male.strategy.impl.CoolTextualExecutionListener;
+import it.units.inginf.male.tree.Constant;
+import it.units.inginf.male.tree.Node;
+import it.units.inginf.male.tree.operator.MatchOneOrMore;
+import it.units.inginf.male.tree.operator.MatchOneOrMoreGreedy;
 import it.units.inginf.male.utils.Utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,13 +76,7 @@ public class ConsoleRegexTurtle {
 
         parseArgs(args, simpleConfiguration);
 
-        try {
-            simpleConfiguration.dataset = loadDataset(simpleConfiguration.datasetName);
-        } catch (IOException ex) {
-            System.out.println("Problem opening the dataset file " + simpleConfiguration.datasetName + "\n");
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-            System.exit(1);
-        }
+        simpleConfiguration.dataset = createDataset1();
         //Output warning about learning size
         String message = null;
         int numberPositiveExamples = 0;
@@ -90,6 +89,7 @@ public class ConsoleRegexTurtle {
             message = WARNING_MESSAGE;
         }
         Configuration config = simpleConfiguration.buildConfiguration();
+        
         //change defaults for console usage
         config.setPostProcessor(new JsonPostProcessor());
         config.getPostprocessorParameters().put(BasicPostprocessor.PARAMETER_NAME_POPULATE_OPTIONAL_FIELDS, Boolean.toString(simpleConfiguration.populateOptionalFields));
@@ -119,20 +119,52 @@ public class ConsoleRegexTurtle {
         }
         writeBestPerformances(results.getBestSolution(), config.isIsFlagging());
     }
-
-    private static DataSet loadDataset(String dataSetFilename) throws IOException {
-        FileInputStream fis = new FileInputStream(new File(dataSetFilename));
-        InputStreamReader isr = new InputStreamReader(fis);
-        StringBuilder sb;
-        try (BufferedReader bufferedReader = new BufferedReader(isr)) {
-            sb = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
-            }
+    
+    private static DataSet createDataset1() {
+        DataSet data = new DataSet("Sample DataSet 1", "", "");
+        String rawPositive = "10101000\n" +
+                            "01010000\n" +
+                            "01110110\n" +
+                            "10111001\n" +
+                            "01011001\n" +
+                            "11001100\n" +
+                            "11111111\n" +
+                            "00000000";
+        String rawNegative = "011011001\n" +
+                            "100000001 \n" +
+                            "01000200\n" +
+                            "00021000\n" +
+                            "e10000000\n" +
+                            "46548642\n" +
+                            "2154648";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
         }
-        String json = sb.toString();
-        return loadDatasetJson(json);
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        Node n1 = new Constant("\\d");
+        Node n2 = new MatchOneOrMoreGreedy();
+        n2.getChildrens().add(n1);
+        data.initReg = n2;
+        return data;
     }
 
     private static DataSet loadDatasetJson(String jsonDataset) {

@@ -19,9 +19,7 @@ package it.units.inginf.male.dto;
 
 import it.units.inginf.male.configuration.Configuration;
 import it.units.inginf.male.configuration.DatasetContainer;
-import it.units.inginf.male.generations.EmptyPopulationBuilder;
-import it.units.inginf.male.generations.FlaggingNaivePopulationBuilder;
-import it.units.inginf.male.generations.TokenizedPopulationBuilder;
+import it.units.inginf.male.generations.CustomBuilder;
 import it.units.inginf.male.inputs.DataSet;
 import it.units.inginf.male.objective.FlaggingAccuracyPrecisionLengthObjective;
 import it.units.inginf.male.selections.best.BasicFlaggingLearningBestSelector;
@@ -104,7 +102,7 @@ public class SimpleConfig {
             configuration.setStrategy(new MultithreadStrategy());
             configuration.setBestSelector(new BasicFlaggingLearningBestSelector());
             configuration.setObjective(new FlaggingAccuracyPrecisionLengthObjective());
-            configuration.setPopulationBuilder(new FlaggingNaivePopulationBuilder()); //disable context generation
+            configuration.setPopulationBuilder(new CustomBuilder()); //disable context generation
             configuration.setTerminalSetBuilder(new FlaggingNgramsTerminalSetBuilder()); //disable context generation 
             //TODO change terminalSet to a more naive version?
             configuration.getTerminalSetBuilderParameters().put("discardWtokens", "false");//Takes significant chars too
