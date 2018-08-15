@@ -18,6 +18,7 @@ import java.util.List;
  * @author orion
  */
 public class CustomBuilder implements InitialPopulationBuilder{
+    public static final boolean USE_CUSTOM = true;
     private List<Node> population = new LinkedList<>();
     
     @Override
