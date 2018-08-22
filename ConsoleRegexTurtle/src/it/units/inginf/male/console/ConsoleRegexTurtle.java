@@ -828,6 +828,2368 @@ public class ConsoleRegexTurtle {
         data.initReg = nodeN0;
         return data;
     }
+    
+    private static DataSet createDataset5() {
+        DataSet data = new DataSet("Sample DataSet 5", "", "");
+        String rawPositive = "12/30/2004\n" +
+"01/01/2004\n" +
+"4/1/2001\n" +
+"12/12/2001";
+        String rawNegative = "10.03.1979\n" +
+"09--02--2004\n" +
+"15-15-2004\n" +
+"13/12/2004\n" +
+"02/31/2000\n" +
+"55/5/3434\n" +
+"1/1/01\n" +
+"12 Jan 01\n" +
+"1-1-2001\n" +
+"12/55/2003";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //\d{1,2}\/\d{1,2}\/\d{4}
+        Node nodeN2 = new Anchor("\\d");
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("1"));
+        nodeN1.getChildrens().add(new Constant("2"));
+        Node nodeN3 = new Anchor("\\/");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN4 = new Concatenator();
+        Node nodeN6 = new Anchor("\\d");
+        Node nodeN5 = new MatchMinMax();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(new Constant("1"));
+        nodeN5.getChildrens().add(new Constant("2"));
+        nodeN4.getChildrens().add(nodeN0);
+        nodeN4.getChildrens().add(nodeN5);
+        Node nodeN7 = new Concatenator();
+        Node nodeN8 = new Anchor("\\/");
+        nodeN7.getChildrens().add(nodeN4);
+        nodeN7.getChildrens().add(nodeN8);
+        Node nodeN9 = new Concatenator();
+        Node nodeN11 = new Anchor("\\d");
+        Node nodeN10 = new MatchMinMax();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN9.getChildrens().add(nodeN7);
+        nodeN9.getChildrens().add(nodeN10);
+
+        data.initReg = nodeN9;
+        return data;
+    }
+    
+    private static DataSet createDataset6() {
+        DataSet data = new DataSet("Sample DataSet 6", "", "");
+        String rawPositive = "foo@demo.net\n" +
+"bar.ba@test.co.uk\n" +
+"bob-smith@foo.com\n" +
+"bob.smith@foo.com\n" +
+"bob_smith@foo.com\n" +
+"me.you@home.co.uk\n" +
+"fred&barney@stonehenge.com\n" +
+"king-bart@home.simpsons.com\n" +
+"bart@simpsons.info\n" +
+"test@cde.com";
+        String rawNegative = "test@t.com\n" +
+"test@ab.com\n" +
+"test@f.com\n" +
+"test@gh.com\n" +
+".test.@test.com\n" +
+"spammer@[203.12.145.68]\n" +
+"bla@bla\n" +
+"A\n" +
+"foo@do.net\n" +
+"bar.ba@te.co.uk\n" +
+"bob-smith@fo.com\n" +
+"bob.smith@o.com\n" +
+"(namely-,\n" +
+".,(2-6\n" +
+"Some;-)";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(([0-9a-zA-Z])+[\-a&+;m._p])*([0-9a-zA-Z])+@(([\-0-9a-zA-Z])+[.])+([a-zA-Z]){2,6}
+        Node nodeN4 = new ListMatch();
+        nodeN4.getChildrens().add(new RegexRange("0-9a-zA-Z"));
+        Node nodeN3 = new MatchOneOrMore();
+        nodeN3.getChildrens().add(nodeN4);
+        Node nodeN5 = new ListMatch();
+        nodeN5.getChildrens().add(new RegexRange("\\-a&+;m._p"));
+        Node nodeN2 = new Concatenator();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN5);
+        Node nodeN1 = new MatchZeroOrMore();
+        nodeN1.getChildrens().add(nodeN2);
+        Node nodeN7 = new ListMatch();
+        nodeN7.getChildrens().add(new RegexRange("0-9a-zA-Z"));
+        Node nodeN6 = new MatchOneOrMore();
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN6);
+        Node nodeN8 = new Concatenator();
+        Node nodeN9 = new Constant("@");
+        nodeN8.getChildrens().add(nodeN0);
+        nodeN8.getChildrens().add(nodeN9);
+        Node nodeN10 = new Concatenator();
+        Node nodeN14 = new ListMatch();
+        nodeN14.getChildrens().add(new RegexRange("\\-0-9a-zA-Z"));
+        Node nodeN13 = new MatchOneOrMore();
+        nodeN13.getChildrens().add(nodeN14);
+        Node nodeN15 = new ListMatch();
+        nodeN15.getChildrens().add(new RegexRange("."));
+        Node nodeN12 = new Concatenator();
+        nodeN12.getChildrens().add(nodeN13);
+        nodeN12.getChildrens().add(nodeN15);
+        Node nodeN11 = new MatchOneOrMore();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN10.getChildrens().add(nodeN8);
+        nodeN10.getChildrens().add(nodeN11);
+        Node nodeN16 = new Concatenator();
+        Node nodeN18 = new ListMatch();
+        nodeN18.getChildrens().add(new RegexRange("a-zA-Z"));
+        Node nodeN17 = new MatchMinMax();
+        nodeN17.getChildrens().add(nodeN18);
+        nodeN17.getChildrens().add(new Constant("2"));
+        nodeN17.getChildrens().add(new Constant("6"));
+        nodeN16.getChildrens().add(nodeN10);
+        nodeN16.getChildrens().add(nodeN17);
+
+        
+        data.initReg = nodeN16;
+        return data;
+    }
+    private static DataSet createDataset7() {
+        DataSet data = new DataSet("Sample DataSet 7", "", "");
+        String rawPositive = "foo@demo.net\n" +
+"ba@test.co\n" +
+"smith@foo.com\n" +
+"smith@foo.com\n" +
+"bob_smith@foo.com\n" +
+"you@home.co\n" +
+"barney@stonehenge.com\n" +
+"test@gh.com\n" +
+"test@f.com\n" +
+"test@cde.com\n" +
+"bart@simpsons.info\n" +
+"test@t.com\n" +
+"test@ab.comd\n" +
+"bart@home.simp";
+        String rawNegative = "you@home.coddd\n" +
+"barney@stonehenge.comfs\n" +
+"test@gh.comcs\n" +
+"test@f.comads\n" +
+"bar.\n" +
+"bob-smith@foo.com\n" +
+"ob.smith@foo.com\n" +
+"bob_smith@foo.com\n" +
+"me.you@home.co.uk\n" +
+"fred&barney@stonehenge.com\n" +
+"king-bart@home.simpsons.com\n" +
+".test.@test.com\n" +
+"spammer@[203.12.145.68]\n" +
+"bla@bla";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}
+        Node nodeN2 = new Anchor("\\w");
+        Node nodeN1 = new MatchOneOrMore();
+        nodeN1.getChildrens().add(nodeN2);
+        Node nodeN3 = new Constant("@");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN4 = new Concatenator();
+        Node nodeN7 = new ListMatch();
+        nodeN7.getChildrens().add(new RegexRange("a-zA-Z_"));
+        Node nodeN6 = new MatchOneOrMore();
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN5 = new MatchZeroOrOne();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN4.getChildrens().add(nodeN0);
+        nodeN4.getChildrens().add(nodeN5);
+        Node nodeN8 = new Concatenator();
+        Node nodeN9 = new Anchor("\\.");
+        nodeN8.getChildrens().add(nodeN4);
+        nodeN8.getChildrens().add(nodeN9);
+        Node nodeN10 = new Concatenator();
+        Node nodeN12 = new ListMatch();
+        nodeN12.getChildrens().add(new RegexRange("a-zA-Z"));
+        Node nodeN11 = new MatchMinMax();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(new Constant("2"));
+        nodeN11.getChildrens().add(new Constant("3"));
+        nodeN10.getChildrens().add(nodeN8);
+        nodeN10.getChildrens().add(nodeN11);
+
+        
+        data.initReg = nodeN10;
+        return data;
+    }
+    private static DataSet createDataset8() {
+        DataSet data = new DataSet("Sample DataSet 8", "", "");
+        String rawPositive = "4984BAEC\n" +
+"480EDBAC\n" +
+"98439ACB\n" +
+"E59CADB8\n" +
+"78946C8E\n" +
+"6A8B0678\n" +
+"EA684B6E\n" +
+"8A81646A\n" +
+"8EBE84E7\n" +
+"89F2D97E\n" +
+"879989AD\n" +
+"8998798A";
+        String rawNegative = "ER987AE7\n" +
+"RW897RA9\n" +
+"7ER89W7E\n" +
+"R979ER8T\n" +
+"Q8979879\n" +
+"ASDF9A9A\n" +
+"7987E87R\n" +
+"9W7E9R7\n" +
+"98T79A7S\n" +
+"9DF797ER\n" +
+"8964Z5X6\n" +
+"4D8EW7R9\n" +
+"Q54R\n" +
+"9R897B9\n" +
+"78799\n" +
+"89AD";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //\w{8}
+        Node nodeN1 = new Anchor("\\w");
+        Node nodeN0 = new MatchMinMax();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(new Constant("8"));
+        nodeN0.getChildrens().add(new Constant("8"));
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset9() {
+        DataSet data = new DataSet("Sample DataSet 9", "", "");
+        String rawPositive = "113.173.40.255\n" +
+"171.132.248.57\n" +
+"79.93.28.178";
+        String rawNegative = "111.222.333.444\n" +
+"299.299.299.299\n" +
+"189.57.135\n" +
+"14.190.193999\n" +
+"A.N.D.233\n" +
+"0123456789\n" +
+"_+-.,!@#$%^&*();\\/|<>\"'\n" +
+"12345\n" +
+"-98.7\n" +
+"3.141\n" +
+".6180\n" +
+"9,000\n" +
+"+42\n" +
+"555.123.4567\n" +
+"+1-(800)-555-2468";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+))
+        Node nodeN3 = new ListMatch();
+        nodeN3.getChildrens().add(new RegexRange("0-2"));
+        Node nodeN2 = new MatchZeroOrMore();
+        nodeN2.getChildrens().add(nodeN3);
+        Node nodeN5 = new ListMatch();
+        nodeN5.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN4 = new MatchOneOrMore();
+        nodeN4.getChildrens().add(nodeN5);
+        Node nodeN1 = new Concatenator();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN4);
+        Node nodeN6 = new Concatenator();
+        Node nodeN8 = new ListMatch();
+        nodeN8.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN7 = new MatchOneOrMore();
+        nodeN7.getChildrens().add(nodeN8);
+        nodeN6.getChildrens().add(nodeN1);
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN9 = new Anchor("\\.");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN6);
+        nodeN0.getChildrens().add(nodeN9);
+        Node nodeN10 = new Concatenator();
+        Node nodeN13 = new ListMatch();
+        nodeN13.getChildrens().add(new RegexRange("0-2"));
+        Node nodeN12 = new MatchZeroOrMore();
+        nodeN12.getChildrens().add(nodeN13);
+        Node nodeN15 = new ListMatch();
+        nodeN15.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN14 = new MatchOneOrMore();
+        nodeN14.getChildrens().add(nodeN15);
+        Node nodeN11 = new Concatenator();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(nodeN14);
+        Node nodeN16 = new Concatenator();
+        Node nodeN18 = new ListMatch();
+        nodeN18.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN17 = new MatchOneOrMore();
+        nodeN17.getChildrens().add(nodeN18);
+        nodeN16.getChildrens().add(nodeN11);
+        nodeN16.getChildrens().add(nodeN17);
+        nodeN10.getChildrens().add(nodeN0);
+        nodeN10.getChildrens().add(nodeN16);
+        Node nodeN19 = new Concatenator();
+        Node nodeN20 = new Anchor("\\.");
+        nodeN19.getChildrens().add(nodeN10);
+        nodeN19.getChildrens().add(nodeN20);
+        Node nodeN21 = new Concatenator();
+        Node nodeN24 = new ListMatch();
+        nodeN24.getChildrens().add(new RegexRange("0-2"));
+        Node nodeN23 = new MatchZeroOrMore();
+        nodeN23.getChildrens().add(nodeN24);
+        Node nodeN26 = new ListMatch();
+        nodeN26.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN25 = new MatchOneOrMore();
+        nodeN25.getChildrens().add(nodeN26);
+        Node nodeN22 = new Concatenator();
+        nodeN22.getChildrens().add(nodeN23);
+        nodeN22.getChildrens().add(nodeN25);
+        Node nodeN27 = new Concatenator();
+        Node nodeN29 = new ListMatch();
+        nodeN29.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN28 = new MatchOneOrMore();
+        nodeN28.getChildrens().add(nodeN29);
+        nodeN27.getChildrens().add(nodeN22);
+        nodeN27.getChildrens().add(nodeN28);
+        nodeN21.getChildrens().add(nodeN19);
+        nodeN21.getChildrens().add(nodeN27);
+        Node nodeN30 = new Concatenator();
+        Node nodeN31 = new Anchor("\\.");
+        nodeN30.getChildrens().add(nodeN21);
+        nodeN30.getChildrens().add(nodeN31);
+        Node nodeN32 = new Concatenator();
+        Node nodeN35 = new ListMatch();
+        nodeN35.getChildrens().add(new RegexRange("0-2"));
+        Node nodeN34 = new MatchZeroOrMore();
+        nodeN34.getChildrens().add(nodeN35);
+        Node nodeN37 = new ListMatch();
+        nodeN37.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN36 = new MatchOneOrMore();
+        nodeN36.getChildrens().add(nodeN37);
+        Node nodeN33 = new Concatenator();
+        nodeN33.getChildrens().add(nodeN34);
+        nodeN33.getChildrens().add(nodeN36);
+        Node nodeN38 = new Concatenator();
+        Node nodeN40 = new ListMatch();
+        nodeN40.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN39 = new MatchOneOrMore();
+        nodeN39.getChildrens().add(nodeN40);
+        nodeN38.getChildrens().add(nodeN33);
+        nodeN38.getChildrens().add(nodeN39);
+        nodeN32.getChildrens().add(nodeN30);
+        nodeN32.getChildrens().add(nodeN38);
+
+        
+        data.initReg = nodeN32;
+        return data;
+    }
+    private static DataSet createDataset10() {
+        DataSet data = new DataSet("Sample DataSet 10", "", "");
+        String rawPositive = "5125632154125412\n" +
+"5225632154125412\n" +
+"5525632154125412\n" +
+"5525632154125412\n" +
+"5125632154125412\n" +
+"5325632154125412\n" +
+"5425632154125412\n" +
+"5425632154125412\n" +
+"5211632154125412";
+        String rawNegative = "1525632154125412\n" +
+"2525632154125412\n" +
+"3525632154125412\n" +
+"1599999999999999\n" +
+"4525632154125412\n" +
+"1525632154125412\n" +
+"3525632154125412\n" +
+"5625632154125412\n" +
+"4825632154125412\n" +
+"6011632154125412\n" +
+"6011-1111-1111-1111\n" +
+"5423-1111-1111-1111\n" +
+"341111111111111";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //([51|52|53|54|55]{2})([0-9]{14})
+        Node nodeN2 = new ListMatch();
+        nodeN2.getChildrens().add(new RegexRange("1234555555||||"));
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("2"));
+        nodeN1.getChildrens().add(new Constant("2"));
+        Node nodeN4 = new ListMatch();
+        nodeN4.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN3 = new MatchMinMax();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(new Constant("14"));
+        nodeN3.getChildrens().add(new Constant("14"));
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset11() {
+        DataSet data = new DataSet("Sample DataSet 11", "", "");
+        String rawPositive = "xy9D29rwer\n" +
+"d9vNUNswe\n" +
+"gskinner\n" +
+"Expression\n" +
+"abcdefghijklmnopqrstuvwxyz\n" +
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" +
+"a1#Zv96g@*Yfasd4 \n" +
+"q@12X*567\n" +
+"d#67jhgt@erd";
+        String rawNegative = "awdif\n" +
+"DxRsf\n" +
+"0pAbdef\n" +
+"9D29rwer\n" +
+"r\n" +
+"9\n" +
+"t5\n" +
+"d9b\n" +
+"29gpwerwr\n" +
+"z8fn5wer\n" +
+"v9wSnx0wer\n" +
+"2nf9bm4d\n" +
+"9vNUNswe\n" +
+"Welcome\n" +
+"to\n" +
+"RegExr\n" +
+"gskinner.com\n" +
+"2proudly\n" +
+"emple!\n" +
+"matches\n" +
+"45matches\n" +
+"0123456789\n" +
+"_+-.,!@#$%^&*();\\/|<>\"'\n" +
+"@12X*567\n" +
+"1#Zv96g@*Yfasd4\n" +
+"#67jhgt@erd\n" +
+"Non-Matches\n" +
+"$12X*567\n" +
+"1#Zv_96\n" +
+"+678jhgt@erd";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //[a-zA-Z0-9@*#]{8,15}
+        Node nodeN1 = new ListMatch();
+        nodeN1.getChildrens().add(new RegexRange("#*0-9a-zA-Z@"));
+        Node nodeN0 = new MatchMinMax();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(new Constant("8"));
+        nodeN0.getChildrens().add(new Constant("15"));
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset12() {
+        DataSet data = new DataSet("Sample DataSet 12", "", "");
+        String rawPositive = "AL\n" +
+"CA\n" +
+"AA\n" +
+"AE\n" +
+"OK\n" +
+"NV";
+        String rawNegative = "Non-Matches\n" +
+"New York\n" +
+"California\n" +
+"ny\n" +
+"S\n" +
+"SD\n" +
+"KJ\n" +
+"JO\n" +
+"DS\n" +
+"JO\n" +
+"PR\n" +
+"LSPWERLKJLKWEQJRPOJKLNK<ZMC\n" +
+"awdif\n" +
+"DxRsf\n" +
+"0pAbdef\n" +
+"xy9D29r\n" +
+"r\n" +
+"t5\n" +
+"d9b\n" +
+"29gp\n" +
+"2nf9bm4\n" +
+"d9vNU";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]
+        Node nodeN19 = new Constant("A");
+        Node nodeN20 = new ListMatch();
+        nodeN20.getChildrens().add(new RegexRange("ARSZKLP"));
+        Node nodeN18 = new Concatenator();
+        nodeN18.getChildrens().add(nodeN19);
+        nodeN18.getChildrens().add(nodeN20);
+        Node nodeN22 = new Constant("C");
+        Node nodeN23 = new ListMatch();
+        nodeN23.getChildrens().add(new RegexRange("ATO"));
+        Node nodeN21 = new Concatenator();
+        nodeN21.getChildrens().add(nodeN22);
+        nodeN21.getChildrens().add(nodeN23);
+        Node nodeN17 = new Or();
+        nodeN17.getChildrens().add(nodeN18);
+        nodeN17.getChildrens().add(nodeN21);
+        Node nodeN25 = new Constant("D");
+        Node nodeN26 = new ListMatch();
+        nodeN26.getChildrens().add(new RegexRange("CE"));
+        Node nodeN24 = new Concatenator();
+        nodeN24.getChildrens().add(nodeN25);
+        nodeN24.getChildrens().add(nodeN26);
+        Node nodeN16 = new Or();
+        nodeN16.getChildrens().add(nodeN17);
+        nodeN16.getChildrens().add(nodeN24);
+        Node nodeN28 = new Constant("F");
+        Node nodeN29 = new ListMatch();
+        nodeN29.getChildrens().add(new RegexRange("LM"));
+        Node nodeN27 = new Concatenator();
+        nodeN27.getChildrens().add(nodeN28);
+        nodeN27.getChildrens().add(nodeN29);
+        Node nodeN15 = new Or();
+        nodeN15.getChildrens().add(nodeN16);
+        nodeN15.getChildrens().add(nodeN27);
+        Node nodeN31 = new Constant("G");
+        Node nodeN32 = new ListMatch();
+        nodeN32.getChildrens().add(new RegexRange("AU"));
+        Node nodeN30 = new Concatenator();
+        nodeN30.getChildrens().add(nodeN31);
+        nodeN30.getChildrens().add(nodeN32);
+        Node nodeN14 = new Or();
+        nodeN14.getChildrens().add(nodeN15);
+        nodeN14.getChildrens().add(nodeN30);
+        Node nodeN34 = new Constant("H");
+        Node nodeN35 = new Constant("I");
+        Node nodeN33 = new Concatenator();
+        nodeN33.getChildrens().add(nodeN34);
+        nodeN33.getChildrens().add(nodeN35);
+        Node nodeN13 = new Or();
+        nodeN13.getChildrens().add(nodeN14);
+        nodeN13.getChildrens().add(nodeN33);
+        Node nodeN37 = new Constant("I");
+        Node nodeN38 = new ListMatch();
+        nodeN38.getChildrens().add(new RegexRange("ADLN"));
+        Node nodeN36 = new Concatenator();
+        nodeN36.getChildrens().add(nodeN37);
+        nodeN36.getChildrens().add(nodeN38);
+        Node nodeN12 = new Or();
+        nodeN12.getChildrens().add(nodeN13);
+        nodeN12.getChildrens().add(nodeN36);
+        Node nodeN40 = new Constant("K");
+        Node nodeN41 = new ListMatch();
+        nodeN41.getChildrens().add(new RegexRange("SY"));
+        Node nodeN39 = new Concatenator();
+        nodeN39.getChildrens().add(nodeN40);
+        nodeN39.getChildrens().add(nodeN41);
+        Node nodeN11 = new Or();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(nodeN39);
+        Node nodeN43 = new Constant("L");
+        Node nodeN44 = new Constant("A");
+        Node nodeN42 = new Concatenator();
+        nodeN42.getChildrens().add(nodeN43);
+        nodeN42.getChildrens().add(nodeN44);
+        Node nodeN10 = new Or();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(nodeN42);
+        Node nodeN46 = new Constant("M");
+        Node nodeN47 = new ListMatch();
+        nodeN47.getChildrens().add(new RegexRange("ASDTEHINOP"));
+        Node nodeN45 = new Concatenator();
+        nodeN45.getChildrens().add(nodeN46);
+        nodeN45.getChildrens().add(nodeN47);
+        Node nodeN9 = new Or();
+        nodeN9.getChildrens().add(nodeN10);
+        nodeN9.getChildrens().add(nodeN45);
+        Node nodeN49 = new Constant("N");
+        Node nodeN50 = new ListMatch();
+        nodeN50.getChildrens().add(new RegexRange("CDEVHYJM"));
+        Node nodeN48 = new Concatenator();
+        nodeN48.getChildrens().add(nodeN49);
+        nodeN48.getChildrens().add(nodeN50);
+        Node nodeN8 = new Or();
+        nodeN8.getChildrens().add(nodeN9);
+        nodeN8.getChildrens().add(nodeN48);
+        Node nodeN52 = new Constant("O");
+        Node nodeN53 = new ListMatch();
+        nodeN53.getChildrens().add(new RegexRange("RHK"));
+        Node nodeN51 = new Concatenator();
+        nodeN51.getChildrens().add(nodeN52);
+        nodeN51.getChildrens().add(nodeN53);
+        Node nodeN7 = new Or();
+        nodeN7.getChildrens().add(nodeN8);
+        nodeN7.getChildrens().add(nodeN51);
+        Node nodeN55 = new Constant("P");
+        Node nodeN56 = new ListMatch();
+        nodeN56.getChildrens().add(new RegexRange("ARW"));
+        Node nodeN54 = new Concatenator();
+        nodeN54.getChildrens().add(nodeN55);
+        nodeN54.getChildrens().add(nodeN56);
+        Node nodeN6 = new Or();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(nodeN54);
+        Node nodeN58 = new Constant("R");
+        Node nodeN59 = new Constant("I");
+        Node nodeN57 = new Concatenator();
+        nodeN57.getChildrens().add(nodeN58);
+        nodeN57.getChildrens().add(nodeN59);
+        Node nodeN5 = new Or();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(nodeN57);
+        Node nodeN61 = new Constant("S");
+        Node nodeN62 = new ListMatch();
+        nodeN62.getChildrens().add(new RegexRange("CD"));
+        Node nodeN60 = new Concatenator();
+        nodeN60.getChildrens().add(nodeN61);
+        nodeN60.getChildrens().add(nodeN62);
+        Node nodeN4 = new Or();
+        nodeN4.getChildrens().add(nodeN5);
+        nodeN4.getChildrens().add(nodeN60);
+        Node nodeN64 = new Constant("T");
+        Node nodeN65 = new ListMatch();
+        nodeN65.getChildrens().add(new RegexRange("XN"));
+        Node nodeN63 = new Concatenator();
+        nodeN63.getChildrens().add(nodeN64);
+        nodeN63.getChildrens().add(nodeN65);
+        Node nodeN3 = new Or();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN63);
+        Node nodeN67 = new Constant("U");
+        Node nodeN68 = new Constant("T");
+        Node nodeN66 = new Concatenator();
+        nodeN66.getChildrens().add(nodeN67);
+        nodeN66.getChildrens().add(nodeN68);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN66);
+        Node nodeN70 = new Constant("V");
+        Node nodeN71 = new ListMatch();
+        nodeN71.getChildrens().add(new RegexRange("ATI"));
+        Node nodeN69 = new Concatenator();
+        nodeN69.getChildrens().add(nodeN70);
+        nodeN69.getChildrens().add(nodeN71);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN69);
+        Node nodeN73 = new Constant("W");
+        Node nodeN74 = new ListMatch();
+        nodeN74.getChildrens().add(new RegexRange("AVIY"));
+        Node nodeN72 = new Concatenator();
+        nodeN72.getChildrens().add(nodeN73);
+        nodeN72.getChildrens().add(nodeN74);
+        Node nodeN0 = new Or();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN72);
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset13() {
+        DataSet data = new DataSet("Sample DataSet 13", "", "");
+        String rawPositive = "12:15\n" +
+"10:26:59\n" +
+"22:01:15\n" +
+"08:30\n" +
+"04:10\n" +
+"09:11\n" +
+"07:30:22\n" +
+"10:12:24\n" +
+"04:10:25\n" +
+"13:12:06\n" +
+"08:14:56";
+        String rawNegative = "10:6:59\n" +
+"2:01:15\n" +
+"08:3\n" +
+"4:10\n" +
+"09:1\n" +
+"7:3:22\n" +
+"24:10:25\n" +
+"13:2:60\n" +
+"13:2:06\n" +
+"11/30/2003\n" +
+"10:12:24am\n" +
+"2/29/2003\n" +
+"08:14:6\n" +
+"8:14:56pm\n" +
+"5/22/2003\n" +
+"09/09/2005\n" +
+"04/02/1998\n" +
+"06/02/1998";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?
+        Node nodeN4 = new ListMatch();
+        nodeN4.getChildrens().add(new RegexRange("0-1"));
+        Node nodeN3 = new MatchZeroOrOne();
+        nodeN3.getChildrens().add(nodeN4);
+        Node nodeN5 = new ListMatch();
+        nodeN5.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN2 = new Concatenator();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN5);
+        Node nodeN7 = new ListMatch();
+        nodeN7.getChildrens().add(new RegexRange("2"));
+        Node nodeN8 = new ListMatch();
+        nodeN8.getChildrens().add(new RegexRange("0-3"));
+        Node nodeN6 = new Concatenator();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(nodeN8);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN6);
+        Node nodeN9 = new Constant(":");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN9);
+        Node nodeN10 = new Concatenator();
+        Node nodeN13 = new ListMatch();
+        nodeN13.getChildrens().add(new RegexRange("0-5"));
+        Node nodeN12 = new MatchZeroOrOne();
+        nodeN12.getChildrens().add(nodeN13);
+        Node nodeN14 = new ListMatch();
+        nodeN14.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN11 = new Concatenator();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(nodeN14);
+        nodeN10.getChildrens().add(nodeN0);
+        nodeN10.getChildrens().add(nodeN11);
+        Node nodeN15 = new Concatenator();
+        Node nodeN18 = new Constant(":");
+        Node nodeN21 = new ListMatch();
+        nodeN21.getChildrens().add(new RegexRange("0-5"));
+        Node nodeN20 = new MatchZeroOrOne();
+        nodeN20.getChildrens().add(nodeN21);
+        Node nodeN22 = new ListMatch();
+        nodeN22.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN19 = new Concatenator();
+        nodeN19.getChildrens().add(nodeN20);
+        nodeN19.getChildrens().add(nodeN22);
+        Node nodeN17 = new Concatenator();
+        nodeN17.getChildrens().add(nodeN18);
+        nodeN17.getChildrens().add(nodeN19);
+        Node nodeN16 = new MatchZeroOrOne();
+        nodeN16.getChildrens().add(nodeN17);
+        nodeN15.getChildrens().add(nodeN10);
+        nodeN15.getChildrens().add(nodeN16);
+
+        
+        data.initReg = nodeN15;
+        return data;
+    }
+    private static DataSet createDataset14() {
+        DataSet data = new DataSet("Sample DataSet 14", "", "");
+        String rawPositive = "JG103759A\n" +
+"AP019283D\n" +
+"ZX047829C\n" +
+"KL192845";
+        String rawNegative = "AZ106878D\n" +
+"AZ019283D\n" +
+"ZZ047829C\n" +
+"DC135798A\n" +
+"FQ987654C\n" +
+"KL192845T\n" +
+"awdif\n" +
+"DxRsf\n" +
+"0pAbdef\n" +
+"xy9D29rwer\n" +
+"d9b\n" +
+"29gpwerwr\n" +
+"z8fn5wer\n" +
+"v9wSnx0wer\n" +
+"2nf9bm4d\n" +
+"d9vNUNswe\n" +
+"Welcome\n" +
+"RegExrv2.1\n" +
+"gskinner.com,\n" +
+"2proudly\n" +
+"hosted\n" +
+"Edit\n" +
+"q@12X*567\n" +
+"a1#Zv96g@*Yfasd4d#67jhgt@erd\n" +
+"Non-Matches\n" +
+"$12X*567\n" +
+"1#Zv_96\n" +
+"+678jhgt@erd";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //[A-CEGHJ-PR-TW-Z]{1}[A-CEGHJ-NPR-TW-Z]{1}[0-9]{6}[A-DFM]{0,1}
+        Node nodeN2 = new ListMatch();
+        nodeN2.getChildrens().add(new RegexRange("W-ZEA-CGHR-TJ-P"));
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("1"));
+        nodeN1.getChildrens().add(new Constant("1"));
+        Node nodeN4 = new ListMatch();
+        nodeN4.getChildrens().add(new RegexRange("W-ZEA-CGHR-TJ-NP"));
+        Node nodeN3 = new MatchMinMax();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(new Constant("1"));
+        nodeN3.getChildrens().add(new Constant("1"));
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN5 = new Concatenator();
+        Node nodeN7 = new ListMatch();
+        nodeN7.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN6 = new MatchMinMax();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(new Constant("6"));
+        nodeN6.getChildrens().add(new Constant("6"));
+        nodeN5.getChildrens().add(nodeN0);
+        nodeN5.getChildrens().add(nodeN6);
+        Node nodeN8 = new Concatenator();
+        Node nodeN10 = new ListMatch();
+        nodeN10.getChildrens().add(new RegexRange("FA-DM"));
+        Node nodeN9 = new MatchMinMax();
+        nodeN9.getChildrens().add(nodeN10);
+        nodeN9.getChildrens().add(new Constant("0"));
+        nodeN9.getChildrens().add(new Constant("1"));
+        nodeN8.getChildrens().add(nodeN5);
+        nodeN8.getChildrens().add(nodeN9);
+
+        
+        data.initReg = nodeN8;
+        return data;
+    }
+    
+    private static DataSet createDataset15() {
+        DataSet data = new DataSet("Sample DataSet 15", "", "");
+        String rawPositive = "http://someserver\n" +
+"http://www.someserver.com/\n" +
+"http://www.someserver.com/somefile.txt\n" +
+"http://foo.co.uk/\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"www.someserver.com/\n" +
+"www.someserver.com/somefile.txt\n" +
+"foo.co.uk/\n" +
+"regexr.com/foo.html?q=bar\n" +
+"mediatemple.net\n" +
+"www.co.uk/\n" +
+"www.test.com\n" +
+"www.domain.com\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net";
+        String rawNegative = "-domain.com domain-.com\n" +
+"3SquareBand.com\n" +
+"asp.net\n" +
+"army.mil\n" +
+"$SquareBand.com\n" +
+"asp/dot.net\n" +
+"army.military";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //[a-zA-Z]{3,}://[a-zA-Z0-9\.]+/*[a-zA-Z0-9/\\%_.]*\?*[a-zA-Z0-9/\\%_.=&amp;]*
+        Node nodeN2 = new ListMatch();
+        nodeN2.getChildrens().add(new RegexRange("a-zA-Z"));
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("3"));
+        nodeN1.getChildrens().add(new Constant("65536"));
+        Node nodeN3 = new Constant(":");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN4 = new Concatenator();
+        Node nodeN5 = new Constant("/");
+        nodeN4.getChildrens().add(nodeN0);
+        nodeN4.getChildrens().add(nodeN5);
+        Node nodeN6 = new Concatenator();
+        Node nodeN7 = new Constant("/");
+        nodeN6.getChildrens().add(nodeN4);
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN8 = new Concatenator();
+        Node nodeN10 = new ListMatch();
+        nodeN10.getChildrens().add(new RegexRange("\\.0-9a-zA-Z"));
+        Node nodeN9 = new MatchOneOrMore();
+        nodeN9.getChildrens().add(nodeN10);
+        nodeN8.getChildrens().add(nodeN6);
+        nodeN8.getChildrens().add(nodeN9);
+        Node nodeN11 = new Concatenator();
+        Node nodeN13 = new Constant("/");
+        Node nodeN12 = new MatchZeroOrMore();
+        nodeN12.getChildrens().add(nodeN13);
+        nodeN11.getChildrens().add(nodeN8);
+        nodeN11.getChildrens().add(nodeN12);
+        Node nodeN14 = new Concatenator();
+        Node nodeN16 = new ListMatch();
+        nodeN16.getChildrens().add(new RegexRange("%0-9a-zA-Z./_\\"));
+        Node nodeN15 = new MatchZeroOrMore();
+        nodeN15.getChildrens().add(nodeN16);
+        nodeN14.getChildrens().add(nodeN11);
+        nodeN14.getChildrens().add(nodeN15);
+        Node nodeN17 = new Concatenator();
+        Node nodeN19 = new Anchor("\\?");
+        Node nodeN18 = new MatchZeroOrMore();
+        nodeN18.getChildrens().add(nodeN19);
+        nodeN17.getChildrens().add(nodeN14);
+        nodeN17.getChildrens().add(nodeN18);
+        Node nodeN20 = new Concatenator();
+        Node nodeN22 = new ListMatch();
+        nodeN22.getChildrens().add(new RegexRange("a%&a-zmA-Z./p;0-9=_\\"));
+        Node nodeN21 = new MatchZeroOrMore();
+        nodeN21.getChildrens().add(nodeN22);
+        nodeN20.getChildrens().add(nodeN17);
+        nodeN20.getChildrens().add(nodeN21);
+
+        
+        data.initReg = nodeN20;
+        return data;
+    }
+    private static DataSet createDataset16() {
+        DataSet data = new DataSet("Sample DataSet 16", "", "");
+        String rawPositive = "http://someserver\n" +
+"http://www.someserver.com/\n" +
+"http://www.someserver.com/somefile.txt\n" +
+"http://foo.co.uk/\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"http://foo.co.uk/http://someserver\n" +
+"ftps://www.someserver.com/\n" +
+"ftps://www.someserver.com/somefile.txt\n" +
+"ftps://foo.co.uk/\n" +
+"ftp://regexr.com/foo.html?q=bar\n" +
+"ftps://mediatemple.net\n" +
+"ftps://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"http://yourmoma\n" +
+"http://www.aspemporium.com\n" +
+"mailto:dominionx@hotmail.com\n" +
+"ftp://ftp.test.com\n" +
+"http://regexlib.com/REDetails.aspx?regexp_id=37";
+        String rawNegative = "www.yahoo.com/period\n" +
+"foo@demo.net\n" +
+"bar.ba@test.co.uk\n" +
+"www.demo.com\n" +
+"www.abc.co.il\n" +
+"-domain.com\n" +
+"domain-.com ";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(mailto\:|news|ht|ftp\:){1}(\S)+
+        Node nodeN6 = new Constant("m");
+        Node nodeN7 = new Constant("a");
+        Node nodeN5 = new Concatenator();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(nodeN7);
+        Node nodeN8 = new Concatenator();
+        Node nodeN9 = new Constant("i");
+        nodeN8.getChildrens().add(nodeN5);
+        nodeN8.getChildrens().add(nodeN9);
+        Node nodeN10 = new Concatenator();
+        Node nodeN11 = new Constant("l");
+        nodeN10.getChildrens().add(nodeN8);
+        nodeN10.getChildrens().add(nodeN11);
+        Node nodeN12 = new Concatenator();
+        Node nodeN13 = new Constant("t");
+        nodeN12.getChildrens().add(nodeN10);
+        nodeN12.getChildrens().add(nodeN13);
+        Node nodeN14 = new Concatenator();
+        Node nodeN15 = new Constant("o");
+        nodeN14.getChildrens().add(nodeN12);
+        nodeN14.getChildrens().add(nodeN15);
+        Node nodeN16 = new Concatenator();
+        Node nodeN17 = new Anchor("\\:");
+        nodeN16.getChildrens().add(nodeN14);
+        nodeN16.getChildrens().add(nodeN17);
+        Node nodeN19 = new Constant("n");
+        Node nodeN20 = new Constant("e");
+        Node nodeN18 = new Concatenator();
+        nodeN18.getChildrens().add(nodeN19);
+        nodeN18.getChildrens().add(nodeN20);
+        Node nodeN21 = new Concatenator();
+        Node nodeN22 = new Constant("w");
+        nodeN21.getChildrens().add(nodeN18);
+        nodeN21.getChildrens().add(nodeN22);
+        Node nodeN23 = new Concatenator();
+        Node nodeN24 = new Constant("s");
+        nodeN23.getChildrens().add(nodeN21);
+        nodeN23.getChildrens().add(nodeN24);
+        Node nodeN4 = new Or();
+        nodeN4.getChildrens().add(nodeN16);
+        nodeN4.getChildrens().add(nodeN23);
+        Node nodeN26 = new Constant("h");
+        Node nodeN27 = new Constant("t");
+        Node nodeN25 = new Concatenator();
+        nodeN25.getChildrens().add(nodeN26);
+        nodeN25.getChildrens().add(nodeN27);
+        Node nodeN3 = new Or();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN25);
+        Node nodeN29 = new Constant("f");
+        Node nodeN30 = new Constant("t");
+        Node nodeN28 = new Concatenator();
+        nodeN28.getChildrens().add(nodeN29);
+        nodeN28.getChildrens().add(nodeN30);
+        Node nodeN31 = new Concatenator();
+        Node nodeN32 = new Constant("p");
+        nodeN31.getChildrens().add(nodeN28);
+        nodeN31.getChildrens().add(nodeN32);
+        Node nodeN33 = new Concatenator();
+        Node nodeN34 = new Anchor("\\:");
+        nodeN33.getChildrens().add(nodeN31);
+        nodeN33.getChildrens().add(nodeN34);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN33);
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("1"));
+        nodeN1.getChildrens().add(new Constant("1"));
+        Node nodeN36 = new Anchor("\\S");
+        Node nodeN35 = new MatchOneOrMore();
+        nodeN35.getChildrens().add(nodeN36);
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN35);
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset17() {
+        DataSet data = new DataSet("Sample DataSet 17", "", "");
+        String rawPositive = "http://www.someserver.com/\n" +
+"http://www.someserver.com/somefile.txt\n" +
+"http://foo.co.uk/\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"http://foo.co.uk/\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"http://www.aspemporium.com\n" +
+"ftp://ftp.test.com\n" +
+"http://regexlib.com/REDetails.aspx?regexp_id=37";
+        String rawNegative = "http://someserver\n" +
+"www.yahoo.com/period\n" +
+"foo@demo.net\n" +
+"bar.ba@test.co.uk\n" +
+"www.demo.com\n" +
+"-domain.com\n" +
+"domain-.com\n" +
+"http://yourmoma\n" +
+"mailto:dominionx@hotmail.com\n" +
+"www.abc.co.il\n" +
+"http://www.yahoo\n" +
+"http://www.textlink";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?
+        Node nodeN4 = new Constant("h");
+        Node nodeN5 = new Constant("t");
+        Node nodeN3 = new Concatenator();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN5);
+        Node nodeN6 = new Concatenator();
+        Node nodeN7 = new Constant("t");
+        nodeN6.getChildrens().add(nodeN3);
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN8 = new Concatenator();
+        Node nodeN9 = new Constant("p");
+        nodeN8.getChildrens().add(nodeN6);
+        nodeN8.getChildrens().add(nodeN9);
+        Node nodeN11 = new Constant("f");
+        Node nodeN12 = new Constant("t");
+        Node nodeN10 = new Concatenator();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(nodeN12);
+        Node nodeN13 = new Concatenator();
+        Node nodeN14 = new Constant("p");
+        nodeN13.getChildrens().add(nodeN10);
+        nodeN13.getChildrens().add(nodeN14);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN8);
+        nodeN2.getChildrens().add(nodeN13);
+        Node nodeN16 = new Constant("h");
+        Node nodeN17 = new Constant("t");
+        Node nodeN15 = new Concatenator();
+        nodeN15.getChildrens().add(nodeN16);
+        nodeN15.getChildrens().add(nodeN17);
+        Node nodeN18 = new Concatenator();
+        Node nodeN19 = new Constant("t");
+        nodeN18.getChildrens().add(nodeN15);
+        nodeN18.getChildrens().add(nodeN19);
+        Node nodeN20 = new Concatenator();
+        Node nodeN21 = new Constant("p");
+        nodeN20.getChildrens().add(nodeN18);
+        nodeN20.getChildrens().add(nodeN21);
+        Node nodeN22 = new Concatenator();
+        Node nodeN23 = new Constant("s");
+        nodeN22.getChildrens().add(nodeN20);
+        nodeN22.getChildrens().add(nodeN23);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN22);
+        Node nodeN24 = new Constant(":");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN24);
+        Node nodeN25 = new Concatenator();
+        Node nodeN26 = new Anchor("\\/");
+        nodeN25.getChildrens().add(nodeN0);
+        nodeN25.getChildrens().add(nodeN26);
+        Node nodeN27 = new Concatenator();
+        Node nodeN28 = new Anchor("\\/");
+        nodeN27.getChildrens().add(nodeN25);
+        nodeN27.getChildrens().add(nodeN28);
+        Node nodeN29 = new Concatenator();
+        Node nodeN31 = new ListMatch();
+        nodeN31.getChildrens().add(new RegexRange("\\-\\w_"));
+        Node nodeN30 = new MatchOneOrMore();
+        nodeN30.getChildrens().add(nodeN31);
+        nodeN29.getChildrens().add(nodeN27);
+        nodeN29.getChildrens().add(nodeN30);
+        Node nodeN32 = new Concatenator();
+        Node nodeN35 = new Anchor("\\.");
+        Node nodeN37 = new ListMatch();
+        nodeN37.getChildrens().add(new RegexRange("\\-\\w_"));
+        Node nodeN36 = new MatchOneOrMore();
+        nodeN36.getChildrens().add(nodeN37);
+        Node nodeN34 = new Concatenator();
+        nodeN34.getChildrens().add(nodeN35);
+        nodeN34.getChildrens().add(nodeN36);
+        Node nodeN33 = new MatchOneOrMore();
+        nodeN33.getChildrens().add(nodeN34);
+        nodeN32.getChildrens().add(nodeN29);
+        nodeN32.getChildrens().add(nodeN33);
+        Node nodeN38 = new Concatenator();
+        Node nodeN42 = new ListMatch();
+        nodeN42.getChildrens().add(new RegexRange("a#%&,m/\\+p\\-\\.:\\w;=^~?@"));
+        Node nodeN41 = new MatchZeroOrMore();
+        nodeN41.getChildrens().add(nodeN42);
+        Node nodeN43 = new ListMatch();
+        nodeN43.getChildrens().add(new RegexRange("a#\\@%&m/\\+p\\-\\w;=^~?"));
+        Node nodeN40 = new Concatenator();
+        nodeN40.getChildrens().add(nodeN41);
+        nodeN40.getChildrens().add(nodeN43);
+        Node nodeN39 = new MatchZeroOrOne();
+        nodeN39.getChildrens().add(nodeN40);
+        nodeN38.getChildrens().add(nodeN32);
+        nodeN38.getChildrens().add(nodeN39);
+        
+        data.initReg = nodeN38;
+        return data;
+    }
+    private static DataSet createDataset18() {
+        DataSet data = new DataSet("Sample DataSet 18", "", "");
+        String rawPositive = "3SquareBand.com\n" +
+"asp.net\n" +
+"army.mil\n" +
+"gskinner.com\n" +
+"demo.net\n" +
+"regexr.com\n" +
+"mediatemple.net\n" +
+"www.demo.com";
+        String rawNegative = "$SquareBand.com\n" +
+"asp/dot.net\n" +
+"army.military\n" +
+"Welcom\n" +
+"Temple!\n" +
+"Edit&\n" +
+"matches.\n" +
+"ctrl-z.\n" +
+"utorial.\n" +
+"abcdefghijklmnopqrstuvwxyz\n" +
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ\n" +
+"0123456789\n" +
+"_+-.,!@#$%^&*();\\/|<>\"'\n" +
+"foo@\n" +
+"bar.ba@test.co.uk\n" +
+"http://foo.co.uk/\n" +
+"http://regexr.com/foo.html?q=bar\n" +
+"https://mediatemple.net\n" +
+"-domain.com\n" +
+"domain-.com";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)
+        Node nodeN2 = new ListMatch();
+        nodeN2.getChildrens().add(new RegexRange("\\-\\.0-9a-zA-Z"));
+        Node nodeN1 = new MatchOneOrMore();
+        nodeN1.getChildrens().add(nodeN2);
+        Node nodeN3 = new Anchor("\\.");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN4 = new Concatenator();
+        Node nodeN15 = new Constant("c");
+        Node nodeN16 = new Constant("o");
+        Node nodeN14 = new Concatenator();
+        nodeN14.getChildrens().add(nodeN15);
+        nodeN14.getChildrens().add(nodeN16);
+        Node nodeN17 = new Concatenator();
+        Node nodeN18 = new Constant("m");
+        nodeN17.getChildrens().add(nodeN14);
+        nodeN17.getChildrens().add(nodeN18);
+        Node nodeN20 = new Constant("o");
+        Node nodeN21 = new Constant("r");
+        Node nodeN19 = new Concatenator();
+        nodeN19.getChildrens().add(nodeN20);
+        nodeN19.getChildrens().add(nodeN21);
+        Node nodeN22 = new Concatenator();
+        Node nodeN23 = new Constant("g");
+        nodeN22.getChildrens().add(nodeN19);
+        nodeN22.getChildrens().add(nodeN23);
+        Node nodeN13 = new Or();
+        nodeN13.getChildrens().add(nodeN17);
+        nodeN13.getChildrens().add(nodeN22);
+        Node nodeN25 = new Constant("n");
+        Node nodeN26 = new Constant("e");
+        Node nodeN24 = new Concatenator();
+        nodeN24.getChildrens().add(nodeN25);
+        nodeN24.getChildrens().add(nodeN26);
+        Node nodeN27 = new Concatenator();
+        Node nodeN28 = new Constant("t");
+        nodeN27.getChildrens().add(nodeN24);
+        nodeN27.getChildrens().add(nodeN28);
+        Node nodeN12 = new Or();
+        nodeN12.getChildrens().add(nodeN13);
+        nodeN12.getChildrens().add(nodeN27);
+        Node nodeN30 = new Constant("m");
+        Node nodeN31 = new Constant("i");
+        Node nodeN29 = new Concatenator();
+        nodeN29.getChildrens().add(nodeN30);
+        nodeN29.getChildrens().add(nodeN31);
+        Node nodeN32 = new Concatenator();
+        Node nodeN33 = new Constant("l");
+        nodeN32.getChildrens().add(nodeN29);
+        nodeN32.getChildrens().add(nodeN33);
+        Node nodeN11 = new Or();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(nodeN32);
+        Node nodeN35 = new Constant("e");
+        Node nodeN36 = new Constant("d");
+        Node nodeN34 = new Concatenator();
+        nodeN34.getChildrens().add(nodeN35);
+        nodeN34.getChildrens().add(nodeN36);
+        Node nodeN37 = new Concatenator();
+        Node nodeN38 = new Constant("u");
+        nodeN37.getChildrens().add(nodeN34);
+        nodeN37.getChildrens().add(nodeN38);
+        Node nodeN10 = new Or();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(nodeN37);
+        Node nodeN40 = new Constant("C");
+        Node nodeN41 = new Constant("O");
+        Node nodeN39 = new Concatenator();
+        nodeN39.getChildrens().add(nodeN40);
+        nodeN39.getChildrens().add(nodeN41);
+        Node nodeN42 = new Concatenator();
+        Node nodeN43 = new Constant("M");
+        nodeN42.getChildrens().add(nodeN39);
+        nodeN42.getChildrens().add(nodeN43);
+        Node nodeN9 = new Or();
+        nodeN9.getChildrens().add(nodeN10);
+        nodeN9.getChildrens().add(nodeN42);
+        Node nodeN45 = new Constant("O");
+        Node nodeN46 = new Constant("R");
+        Node nodeN44 = new Concatenator();
+        nodeN44.getChildrens().add(nodeN45);
+        nodeN44.getChildrens().add(nodeN46);
+        Node nodeN47 = new Concatenator();
+        Node nodeN48 = new Constant("G");
+        nodeN47.getChildrens().add(nodeN44);
+        nodeN47.getChildrens().add(nodeN48);
+        Node nodeN8 = new Or();
+        nodeN8.getChildrens().add(nodeN9);
+        nodeN8.getChildrens().add(nodeN47);
+        Node nodeN50 = new Constant("N");
+        Node nodeN51 = new Constant("E");
+        Node nodeN49 = new Concatenator();
+        nodeN49.getChildrens().add(nodeN50);
+        nodeN49.getChildrens().add(nodeN51);
+        Node nodeN52 = new Concatenator();
+        Node nodeN53 = new Constant("T");
+        nodeN52.getChildrens().add(nodeN49);
+        nodeN52.getChildrens().add(nodeN53);
+        Node nodeN7 = new Or();
+        nodeN7.getChildrens().add(nodeN8);
+        nodeN7.getChildrens().add(nodeN52);
+        Node nodeN55 = new Constant("M");
+        Node nodeN56 = new Constant("I");
+        Node nodeN54 = new Concatenator();
+        nodeN54.getChildrens().add(nodeN55);
+        nodeN54.getChildrens().add(nodeN56);
+        Node nodeN57 = new Concatenator();
+        Node nodeN58 = new Constant("L");
+        nodeN57.getChildrens().add(nodeN54);
+        nodeN57.getChildrens().add(nodeN58);
+        Node nodeN6 = new Or();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(nodeN57);
+        Node nodeN60 = new Constant("E");
+        Node nodeN61 = new Constant("D");
+        Node nodeN59 = new Concatenator();
+        nodeN59.getChildrens().add(nodeN60);
+        nodeN59.getChildrens().add(nodeN61);
+        Node nodeN62 = new Concatenator();
+        Node nodeN63 = new Constant("U");
+        nodeN62.getChildrens().add(nodeN59);
+        nodeN62.getChildrens().add(nodeN63);
+        Node nodeN5 = new Or();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(nodeN62);
+        nodeN4.getChildrens().add(nodeN0);
+        nodeN4.getChildrens().add(nodeN5);
+
+        
+        data.initReg = nodeN4;
+        return data;
+    }
+    private static DataSet createDataset19() {
+        DataSet data = new DataSet("Sample DataSet 19", "", "");
+        String rawPositive = "$0.84\n" +
+"$123\n" +
+"$1,234,567.89\n" +
+"$123,456.01\n" +
+"$1.23\n" +
+"$0.84\n" +
+"$23,458\n" +
+"$4,567,123.89";
+        String rawNegative = "$123458\n" +
+"$1234567.89\n" +
+"$12,3456.01\n" +
+"12345\n" +
+"$1.234\n" +
+"$1234\n" +
+"567.89\n" +
+"$1234,567.89\n" +
+"$56543841.01\n" +
+"2345\n" +
+"$1.234\n" +
+"0123456789\n" +
+"_+-.,!@#$%^&*();\\/|<>\"'\n" +
+"12345 \n" +
+"-98.7\n" +
+"3.141\n" +
+"6180\n" +
+"9,000\n" +
+"+42";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?
+        Node nodeN1 = new Anchor("\\$");
+        Node nodeN5 = new Anchor("\\d");
+        Node nodeN4 = new MatchMinMax();
+        nodeN4.getChildrens().add(nodeN5);
+        nodeN4.getChildrens().add(new Constant("1"));
+        nodeN4.getChildrens().add(new Constant("3"));
+        Node nodeN8 = new Anchor("\\,");
+        Node nodeN10 = new Anchor("\\d");
+        Node nodeN9 = new MatchMinMax();
+        nodeN9.getChildrens().add(nodeN10);
+        nodeN9.getChildrens().add(new Constant("3"));
+        nodeN9.getChildrens().add(new Constant("3"));
+        Node nodeN7 = new Concatenator();
+        nodeN7.getChildrens().add(nodeN8);
+        nodeN7.getChildrens().add(nodeN9);
+        Node nodeN6 = new MatchZeroOrMore();
+        nodeN6.getChildrens().add(nodeN7);
+        Node nodeN3 = new Concatenator();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN6);
+        Node nodeN12 = new Anchor("\\d");
+        Node nodeN11 = new MatchOneOrMore();
+        nodeN11.getChildrens().add(nodeN12);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN11);
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN2);
+        Node nodeN13 = new Concatenator();
+        Node nodeN16 = new Anchor("\\.");
+        Node nodeN18 = new Anchor("\\d");
+        Node nodeN17 = new MatchMinMax();
+        nodeN17.getChildrens().add(nodeN18);
+        nodeN17.getChildrens().add(new Constant("2"));
+        nodeN17.getChildrens().add(new Constant("2"));
+        Node nodeN15 = new Concatenator();
+        nodeN15.getChildrens().add(nodeN16);
+        nodeN15.getChildrens().add(nodeN17);
+        Node nodeN14 = new MatchZeroOrOne();
+        nodeN14.getChildrens().add(nodeN15);
+        nodeN13.getChildrens().add(nodeN0);
+        nodeN13.getChildrens().add(nodeN14);
+
+        
+        data.initReg = nodeN13;
+        return data;
+    }
+    private static DataSet createDataset20() {
+        DataSet data = new DataSet("Sample DataSet 20", "", "");
+        String rawPositive = "12/2002\n" +
+"11/1900\n" +
+"02/1977\n" +
+"2/1977\n" +
+"5/2002";
+        String rawNegative = "0/2003\n" +
+"13/2002\n" +
+"12/02\n" +
+"15/1900\n" +
+"10/10/1977\n" +
+"12-2002\n" +
+"2002/12";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //((0[1-9])|(1[0-2]))\/(\d{4})
+        Node nodeN3 = new Constant("0");
+        Node nodeN4 = new ListMatch();
+        nodeN4.getChildrens().add(new RegexRange("1-9"));
+        Node nodeN2 = new Concatenator();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN4);
+        Node nodeN6 = new Constant("1");
+        Node nodeN7 = new ListMatch();
+        nodeN7.getChildrens().add(new RegexRange("0-2"));
+        Node nodeN5 = new Concatenator();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(nodeN7);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN5);
+        Node nodeN8 = new Anchor("\\/");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN8);
+        Node nodeN9 = new Concatenator();
+        Node nodeN11 = new Anchor("\\d");
+        Node nodeN10 = new MatchMinMax();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN9.getChildrens().add(nodeN0);
+        nodeN9.getChildrens().add(nodeN10);
+
+        
+        data.initReg = nodeN9;
+        return data;
+    }
+    
+    private static DataSet createDataset21() {
+        DataSet data = new DataSet("Sample DataSet 21", "", "");
+        String rawPositive = "0.0.0.0\n" +
+"255.255.255.2\n" +
+"192.168.0.136\n" +
+"8.8.4.10";
+        String rawNegative = "01.01.02.02\n" +
+"00.00.00.00\n" +
+"255.55.255.02\n" +
+"192.168.00.136\n" +
+"008.008.004.010\n" +
+"256.257.255.1";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}
+        Node nodeN5 = new Anchor("\\d");
+        Node nodeN4 = new MatchMinMax();
+        nodeN4.getChildrens().add(nodeN5);
+        nodeN4.getChildrens().add(new Constant("1"));
+        nodeN4.getChildrens().add(new Constant("2"));
+        Node nodeN7 = new Constant("1");
+        Node nodeN8 = new Anchor("\\d");
+        Node nodeN6 = new Concatenator();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(nodeN8);
+        Node nodeN9 = new Concatenator();
+        Node nodeN10 = new Anchor("\\d");
+        nodeN9.getChildrens().add(nodeN6);
+        nodeN9.getChildrens().add(nodeN10);
+        Node nodeN3 = new Or();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN9);
+        Node nodeN12 = new Constant("2");
+        Node nodeN13 = new ListMatch();
+        nodeN13.getChildrens().add(new RegexRange("0-4"));
+        Node nodeN11 = new Concatenator();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(nodeN13);
+        Node nodeN14 = new Concatenator();
+        Node nodeN15 = new Anchor("\\d");
+        nodeN14.getChildrens().add(nodeN11);
+        nodeN14.getChildrens().add(nodeN15);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN14);
+        Node nodeN17 = new Constant("2");
+        Node nodeN18 = new Constant("5");
+        Node nodeN16 = new Concatenator();
+        nodeN16.getChildrens().add(nodeN17);
+        nodeN16.getChildrens().add(nodeN18);
+        Node nodeN19 = new Concatenator();
+        Node nodeN20 = new ListMatch();
+        nodeN20.getChildrens().add(new RegexRange("0-5"));
+        nodeN19.getChildrens().add(nodeN16);
+        nodeN19.getChildrens().add(nodeN20);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN19);
+        Node nodeN23 = new Anchor("\\.");
+        Node nodeN28 = new Anchor("\\d");
+        Node nodeN27 = new MatchMinMax();
+        nodeN27.getChildrens().add(nodeN28);
+        nodeN27.getChildrens().add(new Constant("1"));
+        nodeN27.getChildrens().add(new Constant("2"));
+        Node nodeN30 = new Constant("1");
+        Node nodeN31 = new Anchor("\\d");
+        Node nodeN29 = new Concatenator();
+        nodeN29.getChildrens().add(nodeN30);
+        nodeN29.getChildrens().add(nodeN31);
+        Node nodeN32 = new Concatenator();
+        Node nodeN33 = new Anchor("\\d");
+        nodeN32.getChildrens().add(nodeN29);
+        nodeN32.getChildrens().add(nodeN33);
+        Node nodeN26 = new Or();
+        nodeN26.getChildrens().add(nodeN27);
+        nodeN26.getChildrens().add(nodeN32);
+        Node nodeN35 = new Constant("2");
+        Node nodeN36 = new ListMatch();
+        nodeN36.getChildrens().add(new RegexRange("0-4"));
+        Node nodeN34 = new Concatenator();
+        nodeN34.getChildrens().add(nodeN35);
+        nodeN34.getChildrens().add(nodeN36);
+        Node nodeN37 = new Concatenator();
+        Node nodeN38 = new Anchor("\\d");
+        nodeN37.getChildrens().add(nodeN34);
+        nodeN37.getChildrens().add(nodeN38);
+        Node nodeN25 = new Or();
+        nodeN25.getChildrens().add(nodeN26);
+        nodeN25.getChildrens().add(nodeN37);
+        Node nodeN40 = new Constant("2");
+        Node nodeN41 = new Constant("5");
+        Node nodeN39 = new Concatenator();
+        nodeN39.getChildrens().add(nodeN40);
+        nodeN39.getChildrens().add(nodeN41);
+        Node nodeN42 = new Concatenator();
+        Node nodeN43 = new ListMatch();
+        nodeN43.getChildrens().add(new RegexRange("0-5"));
+        nodeN42.getChildrens().add(nodeN39);
+        nodeN42.getChildrens().add(nodeN43);
+        Node nodeN24 = new Or();
+        nodeN24.getChildrens().add(nodeN25);
+        nodeN24.getChildrens().add(nodeN42);
+        Node nodeN22 = new Concatenator();
+        nodeN22.getChildrens().add(nodeN23);
+        nodeN22.getChildrens().add(nodeN24);
+        Node nodeN21 = new MatchMinMax();
+        nodeN21.getChildrens().add(nodeN22);
+        nodeN21.getChildrens().add(new Constant("3"));
+        nodeN21.getChildrens().add(new Constant("3"));
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN21);
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset22() {
+        DataSet data = new DataSet("Sample DataSet 22", "", "");
+        String rawPositive = "9999999\n" +
+"99999.99999\n" +
+"99,999,999.9999\n" +
+"123,456,789.9\n" +
+"954,652,000.03";
+        String rawNegative = "9999.\n" +
+"9,99,99999.999\n" +
+"999.9999.9999\n" +
+"100,000,0\n" +
+"100,00\n" +
+"200,999,00";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(((\d{1,3})(,\d{3})*)|(\d+))(.\d+)?
+        Node nodeN4 = new Anchor("\\d");
+        Node nodeN3 = new MatchMinMax();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(new Constant("1"));
+        nodeN3.getChildrens().add(new Constant("3"));
+        Node nodeN7 = new Constant(",");
+        Node nodeN9 = new Anchor("\\d");
+        Node nodeN8 = new MatchMinMax();
+        nodeN8.getChildrens().add(nodeN9);
+        nodeN8.getChildrens().add(new Constant("3"));
+        nodeN8.getChildrens().add(new Constant("3"));
+        Node nodeN6 = new Concatenator();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(nodeN8);
+        Node nodeN5 = new MatchZeroOrMore();
+        nodeN5.getChildrens().add(nodeN6);
+        Node nodeN2 = new Concatenator();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN5);
+        Node nodeN11 = new Anchor("\\d");
+        Node nodeN10 = new MatchOneOrMore();
+        nodeN10.getChildrens().add(nodeN11);
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN10);
+        Node nodeN14 = new Anchor(".");
+        Node nodeN16 = new Anchor("\\d");
+        Node nodeN15 = new MatchOneOrMore();
+        nodeN15.getChildrens().add(nodeN16);
+        Node nodeN13 = new Concatenator();
+        nodeN13.getChildrens().add(nodeN14);
+        nodeN13.getChildrens().add(nodeN15);
+        Node nodeN12 = new MatchZeroOrOne();
+        nodeN12.getChildrens().add(nodeN13);
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN12);
+
+        
+        data.initReg = nodeN0;
+        return data;
+    }
+    private static DataSet createDataset23() {
+        DataSet data = new DataSet("Sample DataSet 23", "", "");
+        String rawPositive = "333-22-4444\n" +
+"123-45-6789\n" +
+"078-05-1120\n" +
+"678-15-2200\n" +
+"772-10-1600";
+        String rawNegative = "773-00-0000\n" +
+"780-22-4444\n" +
+"999-88-7777\n" +
+"800-05-1120\n" +
+"123456789\n" +
+"078051120\n" +
+"333224444\n" +
+"333 22 4444\n" +
+"SSN";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //\d{3}-\d{2}-\d{4}
+        Node nodeN2 = new Anchor("\\d");
+        Node nodeN1 = new MatchMinMax();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(new Constant("3"));
+        nodeN1.getChildrens().add(new Constant("3"));
+        Node nodeN3 = new Constant("-");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN3);
+        Node nodeN4 = new Concatenator();
+        Node nodeN6 = new Anchor("\\d");
+        Node nodeN5 = new MatchMinMax();
+        nodeN5.getChildrens().add(nodeN6);
+        nodeN5.getChildrens().add(new Constant("2"));
+        nodeN5.getChildrens().add(new Constant("2"));
+        nodeN4.getChildrens().add(nodeN0);
+        nodeN4.getChildrens().add(nodeN5);
+        Node nodeN7 = new Concatenator();
+        Node nodeN8 = new Constant("-");
+        nodeN7.getChildrens().add(nodeN4);
+        nodeN7.getChildrens().add(nodeN8);
+        Node nodeN9 = new Concatenator();
+        Node nodeN11 = new Anchor("\\d");
+        Node nodeN10 = new MatchMinMax();
+        nodeN10.getChildrens().add(nodeN11);
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN10.getChildrens().add(new Constant("4"));
+        nodeN9.getChildrens().add(nodeN7);
+        nodeN9.getChildrens().add(nodeN10);
+
+        
+        data.initReg = nodeN9;
+        return data;
+    }
+    
+    private static DataSet createDataset24() {
+        DataSet data = new DataSet("Sample DataSet 24", "", "");
+        String rawPositive = "+97150 3827741\n" +
+"0503827741\n" +
+"050-3827741\n" +
+"+97155 3827741\n" +
+"0553827741\n" +
+"055-3827741";
+        String rawNegative = "040 3827741\n" +
+"05 3827741\n" +
+"050        3827741\n" +
+"0563827741\n" +
+"0-50-3827741\n" +
+"055-382774";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //(\+97[\s]{0,1}[\-]{0,1}[\s]{0,1}1|0)50[\s]{0,1}[\-]{0,1}[\s]{0,1}[1-9]{1}[0-9]{6}
+        Node nodeN3 = new Anchor("\\+");
+        Node nodeN4 = new Constant("9");
+        Node nodeN2 = new Concatenator();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN4);
+        Node nodeN5 = new Concatenator();
+        Node nodeN6 = new Constant("7");
+        nodeN5.getChildrens().add(nodeN2);
+        nodeN5.getChildrens().add(nodeN6);
+        Node nodeN7 = new Concatenator();
+        Node nodeN9 = new ListMatch();
+        nodeN9.getChildrens().add(new RegexRange("\\s"));
+        Node nodeN8 = new MatchMinMax();
+        nodeN8.getChildrens().add(nodeN9);
+        nodeN8.getChildrens().add(new Constant("0"));
+        nodeN8.getChildrens().add(new Constant("1"));
+        nodeN7.getChildrens().add(nodeN5);
+        nodeN7.getChildrens().add(nodeN8);
+        Node nodeN10 = new Concatenator();
+        Node nodeN12 = new ListMatch();
+        nodeN12.getChildrens().add(new RegexRange("\\-"));
+        Node nodeN11 = new MatchMinMax();
+        nodeN11.getChildrens().add(nodeN12);
+        nodeN11.getChildrens().add(new Constant("0"));
+        nodeN11.getChildrens().add(new Constant("1"));
+        nodeN10.getChildrens().add(nodeN7);
+        nodeN10.getChildrens().add(nodeN11);
+        Node nodeN13 = new Concatenator();
+        Node nodeN15 = new ListMatch();
+        nodeN15.getChildrens().add(new RegexRange("\\s"));
+        Node nodeN14 = new MatchMinMax();
+        nodeN14.getChildrens().add(nodeN15);
+        nodeN14.getChildrens().add(new Constant("0"));
+        nodeN14.getChildrens().add(new Constant("1"));
+        nodeN13.getChildrens().add(nodeN10);
+        nodeN13.getChildrens().add(nodeN14);
+        Node nodeN16 = new Concatenator();
+        Node nodeN17 = new Constant("1");
+        nodeN16.getChildrens().add(nodeN13);
+        nodeN16.getChildrens().add(nodeN17);
+        Node nodeN18 = new Constant("0");
+        Node nodeN1 = new Or();
+        nodeN1.getChildrens().add(nodeN16);
+        nodeN1.getChildrens().add(nodeN18);
+        Node nodeN19 = new Constant("5");
+        Node nodeN0 = new Concatenator();
+        nodeN0.getChildrens().add(nodeN1);
+        nodeN0.getChildrens().add(nodeN19);
+        Node nodeN20 = new Concatenator();
+        Node nodeN21 = new Constant("0");
+        nodeN20.getChildrens().add(nodeN0);
+        nodeN20.getChildrens().add(nodeN21);
+        Node nodeN22 = new Concatenator();
+        Node nodeN24 = new ListMatch();
+        nodeN24.getChildrens().add(new RegexRange("\\s"));
+        Node nodeN23 = new MatchMinMax();
+        nodeN23.getChildrens().add(nodeN24);
+        nodeN23.getChildrens().add(new Constant("0"));
+        nodeN23.getChildrens().add(new Constant("1"));
+        nodeN22.getChildrens().add(nodeN20);
+        nodeN22.getChildrens().add(nodeN23);
+        Node nodeN25 = new Concatenator();
+        Node nodeN27 = new ListMatch();
+        nodeN27.getChildrens().add(new RegexRange("\\-"));
+        Node nodeN26 = new MatchMinMax();
+        nodeN26.getChildrens().add(nodeN27);
+        nodeN26.getChildrens().add(new Constant("0"));
+        nodeN26.getChildrens().add(new Constant("1"));
+        nodeN25.getChildrens().add(nodeN22);
+        nodeN25.getChildrens().add(nodeN26);
+        Node nodeN28 = new Concatenator();
+        Node nodeN30 = new ListMatch();
+        nodeN30.getChildrens().add(new RegexRange("\\s"));
+        Node nodeN29 = new MatchMinMax();
+        nodeN29.getChildrens().add(nodeN30);
+        nodeN29.getChildrens().add(new Constant("0"));
+        nodeN29.getChildrens().add(new Constant("1"));
+        nodeN28.getChildrens().add(nodeN25);
+        nodeN28.getChildrens().add(nodeN29);
+        Node nodeN31 = new Concatenator();
+        Node nodeN33 = new ListMatch();
+        nodeN33.getChildrens().add(new RegexRange("1-9"));
+        Node nodeN32 = new MatchMinMax();
+        nodeN32.getChildrens().add(nodeN33);
+        nodeN32.getChildrens().add(new Constant("1"));
+        nodeN32.getChildrens().add(new Constant("1"));
+        nodeN31.getChildrens().add(nodeN28);
+        nodeN31.getChildrens().add(nodeN32);
+        Node nodeN34 = new Concatenator();
+        Node nodeN36 = new ListMatch();
+        nodeN36.getChildrens().add(new RegexRange("0-9"));
+        Node nodeN35 = new MatchMinMax();
+        nodeN35.getChildrens().add(nodeN36);
+        nodeN35.getChildrens().add(new Constant("6"));
+        nodeN35.getChildrens().add(new Constant("6"));
+        nodeN34.getChildrens().add(nodeN31);
+        nodeN34.getChildrens().add(nodeN35);
+
+        
+        data.initReg = nodeN34;
+        return data;
+    }
+    
+    private static DataSet createDataset25() {
+        DataSet data = new DataSet("Sample DataSet 25", "", "");
+        String rawPositive = "6011-1111-1111-1111\n" +
+"5423-1111-1111-1111\n" +
+"341111111111111\n" +
+"5423 1111 1111 1111\n" +
+"6011 1111 1234 5678";
+        String rawNegative = "4111-111-111-111\n" +
+"4111 111 111 111\n" +
+"3411-1111-1111-111\n" +
+"Visa\n" +
+"12345678910\n" +
+"0000000000000000";
+        Example ex = new Example();
+        String dataStr = "";
+        Scanner scnrP = new Scanner(rawPositive);
+        Scanner scnrN = new Scanner(rawNegative);
+        int lBound = 0;
+        int rBound = 0;
+        while (scnrP.hasNextLine()) {
+            String temp = scnrP.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addMatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        while (scnrN.hasNextLine()) {
+            String temp = scnrN.nextLine();
+            dataStr += temp;
+            rBound += temp.length();
+            ex.addUnmatchBounds(lBound, rBound);
+            lBound = rBound;
+        }
+        ex.string = new String(dataStr);
+        data.examples.add(ex);
+        
+        //((4\d{3})|(5[1-5]\d{2})|(6011))-?\d{4}-?\d{4}-?\d{4}|3[4,7]\d{13}
+        Node nodeN5 = new Constant("4");
+        Node nodeN7 = new Anchor("\\d");
+        Node nodeN6 = new MatchMinMax();
+        nodeN6.getChildrens().add(nodeN7);
+        nodeN6.getChildrens().add(new Constant("3"));
+        nodeN6.getChildrens().add(new Constant("3"));
+        Node nodeN4 = new Concatenator();
+        nodeN4.getChildrens().add(nodeN5);
+        nodeN4.getChildrens().add(nodeN6);
+        Node nodeN9 = new Constant("5");
+        Node nodeN10 = new ListMatch();
+        nodeN10.getChildrens().add(new RegexRange("1-5"));
+        Node nodeN8 = new Concatenator();
+        nodeN8.getChildrens().add(nodeN9);
+        nodeN8.getChildrens().add(nodeN10);
+        Node nodeN11 = new Concatenator();
+        Node nodeN13 = new Anchor("\\d");
+        Node nodeN12 = new MatchMinMax();
+        nodeN12.getChildrens().add(nodeN13);
+        nodeN12.getChildrens().add(new Constant("2"));
+        nodeN12.getChildrens().add(new Constant("2"));
+        nodeN11.getChildrens().add(nodeN8);
+        nodeN11.getChildrens().add(nodeN12);
+        Node nodeN3 = new Or();
+        nodeN3.getChildrens().add(nodeN4);
+        nodeN3.getChildrens().add(nodeN11);
+        Node nodeN15 = new Constant("6");
+        Node nodeN16 = new Constant("0");
+        Node nodeN14 = new Concatenator();
+        nodeN14.getChildrens().add(nodeN15);
+        nodeN14.getChildrens().add(nodeN16);
+        Node nodeN17 = new Concatenator();
+        Node nodeN18 = new Constant("1");
+        nodeN17.getChildrens().add(nodeN14);
+        nodeN17.getChildrens().add(nodeN18);
+        Node nodeN19 = new Concatenator();
+        Node nodeN20 = new Constant("1");
+        nodeN19.getChildrens().add(nodeN17);
+        nodeN19.getChildrens().add(nodeN20);
+        Node nodeN2 = new Or();
+        nodeN2.getChildrens().add(nodeN3);
+        nodeN2.getChildrens().add(nodeN19);
+        Node nodeN22 = new Constant("-");
+        Node nodeN21 = new MatchZeroOrOne();
+        nodeN21.getChildrens().add(nodeN22);
+        Node nodeN1 = new Concatenator();
+        nodeN1.getChildrens().add(nodeN2);
+        nodeN1.getChildrens().add(nodeN21);
+        Node nodeN23 = new Concatenator();
+        Node nodeN25 = new Anchor("\\d");
+        Node nodeN24 = new MatchMinMax();
+        nodeN24.getChildrens().add(nodeN25);
+        nodeN24.getChildrens().add(new Constant("4"));
+        nodeN24.getChildrens().add(new Constant("4"));
+        nodeN23.getChildrens().add(nodeN1);
+        nodeN23.getChildrens().add(nodeN24);
+        Node nodeN26 = new Concatenator();
+        Node nodeN28 = new Constant("-");
+        Node nodeN27 = new MatchZeroOrOne();
+        nodeN27.getChildrens().add(nodeN28);
+        nodeN26.getChildrens().add(nodeN23);
+        nodeN26.getChildrens().add(nodeN27);
+        Node nodeN29 = new Concatenator();
+        Node nodeN31 = new Anchor("\\d");
+        Node nodeN30 = new MatchMinMax();
+        nodeN30.getChildrens().add(nodeN31);
+        nodeN30.getChildrens().add(new Constant("4"));
+        nodeN30.getChildrens().add(new Constant("4"));
+        nodeN29.getChildrens().add(nodeN26);
+        nodeN29.getChildrens().add(nodeN30);
+        Node nodeN32 = new Concatenator();
+        Node nodeN34 = new Constant("-");
+        Node nodeN33 = new MatchZeroOrOne();
+        nodeN33.getChildrens().add(nodeN34);
+        nodeN32.getChildrens().add(nodeN29);
+        nodeN32.getChildrens().add(nodeN33);
+        Node nodeN35 = new Concatenator();
+        Node nodeN37 = new Anchor("\\d");
+        Node nodeN36 = new MatchMinMax();
+        nodeN36.getChildrens().add(nodeN37);
+        nodeN36.getChildrens().add(new Constant("4"));
+        nodeN36.getChildrens().add(new Constant("4"));
+        nodeN35.getChildrens().add(nodeN32);
+        nodeN35.getChildrens().add(nodeN36);
+        Node nodeN39 = new Constant("3");
+        Node nodeN40 = new ListMatch();
+        nodeN40.getChildrens().add(new RegexRange("47,"));
+        Node nodeN38 = new Concatenator();
+        nodeN38.getChildrens().add(nodeN39);
+        nodeN38.getChildrens().add(nodeN40);
+        Node nodeN41 = new Concatenator();
+        Node nodeN43 = new Anchor("\\d");
+        Node nodeN42 = new MatchMinMax();
+        nodeN42.getChildrens().add(nodeN43);
+        nodeN42.getChildrens().add(new Constant("13"));
+        nodeN42.getChildrens().add(new Constant("13"));
+        nodeN41.getChildrens().add(nodeN38);
+        nodeN41.getChildrens().add(nodeN42);
+        Node nodeN0 = new Or();
+        nodeN0.getChildrens().add(nodeN35);
+        nodeN0.getChildrens().add(nodeN41);
+
+        data.initReg = nodeN0;
+        return data;
+    }
 
     private static void writeBestPerformances(FinalSolution solution, boolean isFlagging) {
         if (solution != null) {
