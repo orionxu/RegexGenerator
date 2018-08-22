@@ -80,7 +80,7 @@ public class ConsoleRegexTurtle {
 
         parseArgs(args, simpleConfiguration);
 
-        simpleConfiguration.dataset = createDataset1();
+        simpleConfiguration.dataset = createDataset25();
         //Output warning about learning size
         String message = null;
         int numberPositiveExamples = 0;
@@ -141,7 +141,10 @@ public class ConsoleRegexTurtle {
                             "e10000000\n" +
                             "46548642\n" +
                             "2154648";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -151,56 +154,35 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         Node n1 = new Constant("\\d");
-        Node n2 = new MatchOneOrMoreGreedy();
+        Node n2 = new MatchOneOrMore();
         n2.getChildrens().add(n1);
         data.initReg = n2;
-        return data;
-    }
-    
-    private static DataSet createDataset0() {
-        DataSet data = new DataSet("Sample DataSet 0", "", "");
-        String rawPositive = "";
-        String rawNegative = "";
-        Example ex = new Example();
-        String dataStr = "";
-        Scanner scnrP = new Scanner(rawPositive);
-        Scanner scnrN = new Scanner(rawNegative);
-        int lBound = 0;
-        int rBound = 0;
-        while (scnrP.hasNextLine()) {
-            String temp = scnrP.nextLine();
-            dataStr += temp;
-            rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
-            lBound = rBound;
-        }
-        while (scnrN.hasNextLine()) {
-            String temp = scnrN.nextLine();
-            dataStr += temp;
-            rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
-            lBound = rBound;
-        }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
-        
-        //
-        
-        data.initReg = null;
         return data;
     }
     
@@ -227,7 +209,10 @@ public class ConsoleRegexTurtle {
                             "19,24,358\n" +
                             "1,87,865\n" +
                             "35,8786,897";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -237,37 +222,49 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
-        //(\d|,)*\d+
-        Node nodeN3 = new Anchor("\\d");
-        Node nodeN4 = new Constant(",");
-        Node nodeN2 = new Or();
-        nodeN2.getChildrens().add(nodeN3);
-        nodeN2.getChildrens().add(nodeN4);
-        Node nodeN1 = new MatchZeroOrMore();
-        nodeN1.getChildrens().add(nodeN2);
-        Node nodeN6 = new Anchor("\\d");
-        Node nodeN5 = new MatchOneOrMore();
-        nodeN5.getChildrens().add(nodeN6);
-        Node nodeN0 = new Concatenator();
-        nodeN0.getChildrens().add(nodeN1);
-        nodeN0.getChildrens().add(nodeN5);
-
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
-        data.initReg = nodeN0;
+        //(\d|,)*\d+
+        Node nums1 = new Constant("\\d");
+        Node comma = new Constant(",");
+        Node or1 = new Or();
+        or1.getChildrens().add(nums1);
+        or1.getChildrens().add(comma);
+        Node star = new MatchZeroOrMore();
+        star.getChildrens().add(or1);
+        Node nums2 = new Constant("\\d");
+        Node plus = new MatchOneOrMore();
+        plus.getChildrens().add(nums2);
+        Node conc = new Concatenator();
+        conc.getChildrens().add(star);
+        conc.getChildrens().add(plus);
+        data.initReg = conc;
         return data;
     }
+   
     
     private static DataSet createDataset3() {
         DataSet data = new DataSet("Sample DataSet 3", "", "");
@@ -301,7 +298,10 @@ public class ConsoleRegexTurtle {
 "31/01/2005\n" +
 "02/29/2005\n" +
 "2/29/2005";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -311,18 +311,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(((0?[1-9]|1[012])/(0?[1-9]|1\d|2[0-8])|(0?[13456789]|1[012])/(29|30)|(0?[13578]|1[02])/31)/(19|[2-9]\d)\d{2}|0?2/29/((19|[2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00)))
         Node nodeN8 = new Constant("0");
@@ -604,7 +616,10 @@ public class ConsoleRegexTurtle {
 "+42\n" +
 "555.123.4567\n" +
 "+1-(800)-555-2468";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -614,18 +629,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //([2-9]\d{3}((0[1-9]|1[012])(0[1-9]|1\d|2[0-8])|(0[13456789]|1[012])(29|30)|(0[13578]|1[02])31)|(([2-9]\d)(0[48]|[2468][048]|[13579][26])|(([2468][048]|[3579][26])00))0229)
         Node nodeN2 = new ListMatch();
@@ -845,7 +872,10 @@ public class ConsoleRegexTurtle {
 "12 Jan 01\n" +
 "1-1-2001\n" +
 "12/55/2003";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -855,18 +885,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //\d{1,2}\/\d{1,2}\/\d{4}
         Node nodeN2 = new Anchor("\\d");
@@ -930,7 +972,10 @@ public class ConsoleRegexTurtle {
 "(namely-,\n" +
 ".,(2-6\n" +
 "Some;-)";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -940,18 +985,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(([0-9a-zA-Z])+[\-a&+;m._p])*([0-9a-zA-Z])+@(([\-0-9a-zA-Z])+[.])+([a-zA-Z]){2,6}
         Node nodeN4 = new ListMatch();
@@ -1034,7 +1091,10 @@ public class ConsoleRegexTurtle {
 ".test.@test.com\n" +
 "spammer@[203.12.145.68]\n" +
 "bla@bla";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1044,18 +1104,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}
         Node nodeN2 = new Anchor("\\w");
@@ -1122,7 +1194,10 @@ public class ConsoleRegexTurtle {
 "9R897B9\n" +
 "78799\n" +
 "89AD";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1132,18 +1207,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //\w{8}
         Node nodeN1 = new Anchor("\\w");
@@ -1176,7 +1263,10 @@ public class ConsoleRegexTurtle {
 "+42\n" +
 "555.123.4567\n" +
 "+1-(800)-555-2468";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1186,18 +1276,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+)\.([0-2]*[0-9]+[0-9]+))
         Node nodeN3 = new ListMatch();
@@ -1322,7 +1424,10 @@ public class ConsoleRegexTurtle {
 "6011-1111-1111-1111\n" +
 "5423-1111-1111-1111\n" +
 "341111111111111";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1332,18 +1437,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //([51|52|53|54|55]{2})([0-9]{14})
         Node nodeN2 = new ListMatch();
@@ -1407,7 +1524,10 @@ public class ConsoleRegexTurtle {
 "$12X*567\n" +
 "1#Zv_96\n" +
 "+678jhgt@erd";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1417,18 +1537,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //[a-zA-Z0-9@*#]{8,15}
         Node nodeN1 = new ListMatch();
@@ -1472,7 +1604,10 @@ public class ConsoleRegexTurtle {
 "29gp\n" +
 "2nf9bm4\n" +
 "d9vNU";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1482,18 +1617,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //A[LKSZRAP]|C[AOT]|D[EC]|F[LM]|G[AU]|HI|I[ADLN]|K[SY]|LA|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[ARW]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]
         Node nodeN19 = new Constant("A");
@@ -1696,7 +1843,10 @@ public class ConsoleRegexTurtle {
 "09/09/2005\n" +
 "04/02/1998\n" +
 "06/02/1998";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1706,18 +1856,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?
         Node nodeN4 = new ListMatch();
@@ -1812,7 +1974,10 @@ public class ConsoleRegexTurtle {
 "$12X*567\n" +
 "1#Zv_96\n" +
 "+678jhgt@erd";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1822,18 +1987,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //[A-CEGHJ-PR-TW-Z]{1}[A-CEGHJ-NPR-TW-Z]{1}[0-9]{6}[A-DFM]{0,1}
         Node nodeN2 = new ListMatch();
@@ -1900,7 +2077,10 @@ public class ConsoleRegexTurtle {
 "$SquareBand.com\n" +
 "asp/dot.net\n" +
 "army.military";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -1910,18 +2090,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //[a-zA-Z]{3,}://[a-zA-Z0-9\.]+/*[a-zA-Z0-9/\\%_.]*\?*[a-zA-Z0-9/\\%_.=&amp;]*
         Node nodeN2 = new ListMatch();
@@ -2008,7 +2200,10 @@ public class ConsoleRegexTurtle {
 "www.abc.co.il\n" +
 "-domain.com\n" +
 "domain-.com ";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2018,18 +2213,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(mailto\:|news|ht|ftp\:){1}(\S)+
         Node nodeN6 = new Constant("m");
@@ -2137,7 +2344,10 @@ public class ConsoleRegexTurtle {
 "www.abc.co.il\n" +
 "http://www.yahoo\n" +
 "http://www.textlink";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2147,18 +2357,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?
         Node nodeN4 = new Constant("h");
@@ -2286,7 +2508,10 @@ public class ConsoleRegexTurtle {
 "https://mediatemple.net\n" +
 "-domain.com\n" +
 "domain-.com";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2296,18 +2521,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)
         Node nodeN2 = new ListMatch();
@@ -2472,7 +2709,10 @@ public class ConsoleRegexTurtle {
 "6180\n" +
 "9,000\n" +
 "+42";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2482,18 +2722,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?
         Node nodeN1 = new Anchor("\\$");
@@ -2558,7 +2810,10 @@ public class ConsoleRegexTurtle {
 "10/10/1977\n" +
 "12-2002\n" +
 "2002/12";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2568,18 +2823,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //((0[1-9])|(1[0-2]))\/(\d{4})
         Node nodeN3 = new Constant("0");
@@ -2627,7 +2894,10 @@ public class ConsoleRegexTurtle {
 "192.168.00.136\n" +
 "008.008.004.010\n" +
 "256.257.255.1";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2637,18 +2907,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])(\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])){3}
         Node nodeN5 = new Anchor("\\d");
@@ -2766,7 +3048,10 @@ public class ConsoleRegexTurtle {
 "100,000,0\n" +
 "100,00\n" +
 "200,999,00";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2776,18 +3061,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(((\d{1,3})(,\d{3})*)|(\d+))(.\d+)?
         Node nodeN4 = new Anchor("\\d");
@@ -2848,7 +3145,10 @@ public class ConsoleRegexTurtle {
 "333224444\n" +
 "333 22 4444\n" +
 "SSN";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2858,18 +3158,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //\d{3}-\d{2}-\d{4}
         Node nodeN2 = new Anchor("\\d");
@@ -2921,7 +3233,10 @@ public class ConsoleRegexTurtle {
 "0563827741\n" +
 "0-50-3827741\n" +
 "055-382774";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -2931,18 +3246,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //(\+97[\s]{0,1}[\-]{0,1}[\s]{0,1}1|0)50[\s]{0,1}[\-]{0,1}[\s]{0,1}[1-9]{1}[0-9]{6}
         Node nodeN3 = new Anchor("\\+");
@@ -3061,7 +3388,10 @@ public class ConsoleRegexTurtle {
 "Visa\n" +
 "12345678910\n" +
 "0000000000000000";
-        Example ex = new Example();
+        Example ex1 = new Example();
+        Example ex2 = new Example();
+        Example ex3 = new Example();
+        Example ex4 = new Example();
         String dataStr = "";
         Scanner scnrP = new Scanner(rawPositive);
         Scanner scnrN = new Scanner(rawNegative);
@@ -3071,18 +3401,30 @@ public class ConsoleRegexTurtle {
             String temp = scnrP.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addMatchBounds(lBound, rBound);
+            ex1.addMatchBounds(lBound, rBound);
+            ex2.addMatchBounds(lBound, rBound);
+            ex3.addMatchBounds(lBound, rBound);
+            ex4.addMatchBounds(lBound, rBound);
             lBound = rBound;
         }
         while (scnrN.hasNextLine()) {
             String temp = scnrN.nextLine();
             dataStr += temp;
             rBound += temp.length();
-            ex.addUnmatchBounds(lBound, rBound);
+            ex1.addUnmatchBounds(lBound, rBound);
+            ex2.addUnmatchBounds(lBound, rBound);
+            ex3.addUnmatchBounds(lBound, rBound);
+            ex4.addUnmatchBounds(lBound, rBound);
             lBound = rBound;
         }
-        ex.string = new String(dataStr);
-        data.examples.add(ex);
+        ex1.string = new String(dataStr);
+        ex2.string = new String(dataStr);
+        ex3.string = new String(dataStr);
+        ex4.string = new String(dataStr);
+        data.examples.add(ex1);
+        data.examples.add(ex2);
+        data.examples.add(ex3);
+        data.examples.add(ex4);
         
         //((4\d{3})|(5[1-5]\d{2})|(6011))-?\d{4}-?\d{4}-?\d{4}|3[4,7]\d{13}
         Node nodeN5 = new Constant("4");
